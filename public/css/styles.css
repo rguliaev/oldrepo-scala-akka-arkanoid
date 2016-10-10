@@ -1,0 +1,45 @@
+body {
+  padding-bottom:10px;
+}
+
+footer{
+    padding-top:50px;
+}
+.center{
+    text-align:center;
+}
+.jumbotron{
+    background-color: transparent;
+    padding-top: 10px;
+    padding-bottom: 30px;
+
+}
+.logo{
+    width:200px;
+    height:200px;
+    margin-bottom:20px;
+}
+
+hr{
+    margin-top: 0px;
+}
+
+.point{
+    padding-top:50px;
+}
+
+nav li:hover{
+    color: #555;
+    background-color: #E7E7E7;
+}
+#svg svg{
+    margin-right:20px;
+}
+.help-inline{color:red;}
+
+#search{width:400px;}
+
+#loadImg{display:none}
+#results{display:none}
+#alert-error{display:none}
+#success{display:none}

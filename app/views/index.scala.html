@@ -1,0 +1,72 @@
+@()(implicit request: Request[AnyContent])
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Scala/Akka Arkanoid</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <link rel="icon" href="@routes.Assets.versioned("images/favicon.ico")">
+
+        <title>Arkanoid with Scala/Akka</title>
+
+            <!-- Bootstrap core CSS -->
+        <link href="@routes.Assets.versioned("css/bootstrap.min.css")" rel="stylesheet">
+            <!-- Custom styles for this template -->
+        <link href="@routes.Assets.versioned("css/styles.css")" rel="stylesheet">
+
+            <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+            <!--[if lt IE 9]><script src="@routes.Assets.versioned("js/ie8-responsive-file-warning.js")"></script><![endif]-->
+        <script src="@routes.Assets.versioned("js/ie-emulation-modes-warning.js")"></script>
+
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+            <!--[if lt IE 9]>
+        <script src="@routes.Assets.versioned("js/html5shiv.min.js")"></script>
+        <script src="@routes.Assets.versioned("js/respond.min.js")"></script>
+            <!-- Placed at the end of the document so the pages load faster -->
+        <script src="@routes.Assets.versioned("js/jquery.min.js")"></script>
+        <script src="@routes.Assets.versioned("js/bootstrap.min.js")"></script>
+            <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+        <script src="@routes.Assets.versioned("js/ie10-viewport-bug-workaround.js")"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <h2>Arkanoid with Scala/Akka</h2>
+                    <p>Click start button to begin.</p>
+                    <a class="btn btn-success" href="#" id="start" role="button">Start</a>
+                    <a class="btn btn-danger" href="#" id="stop" role="button">Stop</a>
+                    <br><br>
+                    <div id="arkanoid"></div>
+
+                    <script type="text/javascript" charset="utf-8">
+
+                            var WS = window['MozWebSocket'] ? MozWebSocket : WebSocket;
+                            var mySocket = new WS("@routes.HomeController.websocket.webSocketURL()");
+                            mySocket.onmessage = function(event) {
+                                var data = JSON.parse(event.data);
+                                $("#arkanoid").html(data.svg);
+                            };
+
+                            var sendMessage = function(message) {
+                                mySocket.send(JSON.stringify({command: message}));
+                            };
+
+                            $("#start").click(function() {
+                                sendMessage("start");
+                            });
+
+                            $("#stop").click(function() {
+                                sendMessage("stop");
+                            });
+
+                    </script>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
