@@ -40,14 +40,14 @@ case class GameData(bricks: List[Brick], ball: Ball, direction: Direction) exten
     bricks.find(b => b.visible && b.getRect.intersects(ball.getRect)).map { b =>
       this.copy(bricks = bricks.filter(_ != b),direction = direction.copy(y = - direction.y))
     } getOrElse {
-      if ((ball.ballX - ball.width) <= 0 || ball.ballX + ball.width >= panelWidth)
+      if ((ball.x - ball.width) <= 0 || ball.x + ball.width >= panelWidth)
         this.copy(direction = direction.copy(x = - direction.x))
-      else if ((ball.ballY - ball.height) <= 0 || ball.ballY + ball.height >= panelHeight)
+      else if ((ball.y - ball.height) <= 0 || ball.y + ball.height >= panelHeight)
         this.copy(direction = direction.copy(y = - direction.y))
       else this
     }
 
-  def go = this.copy(ball = ball.copy(ballX = ball.ballX + direction.x, ballY = ball.ballY + direction.y)).generate
+  def go = this.copy(ball = ball.copy(x = ball.x + direction.x, y = ball.y + direction.y)).generate
 }
 
 class Game extends Actor with PanelSize {
@@ -104,14 +104,14 @@ class Game extends Actor with PanelSize {
   }
 }
 
-case class Ball(ballX: Int, ballY: Int) {
+case class Ball(x: Int, y: Int) extends GameStuff {
   val width = 10
   val height = 10
-  def draw = s"""<circle cx="$ballX" cy="$ballY" r="10" stroke="black" stroke-width="1" fill="#81D67E" />"""
-  def getRect = new Rectangle(ballX, ballY, width, height)
+  def draw = s"""<circle cx="$x" cy="$y" r="10" stroke="black" stroke-width="1" fill="#81D67E" />"""
+  def getRect = new Rectangle(x, y, width, height)
 }
 
-case class Brick(x: Int, y: Int, width: Int, height: Int, visible: Boolean = true) {
+case class Brick(x: Int, y: Int, width: Int, height: Int, visible: Boolean = true) extends GameStuff {
   def draw = s"""<rect x="$x" y="${y - height}" width="$width" height="$height" style="fill:#fff;stroke:black;stroke-width:1;" />"""
   def getRect = new Rectangle(x, y, width, height)
 }
