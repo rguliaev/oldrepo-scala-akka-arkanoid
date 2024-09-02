@@ -1,3 +1,5 @@
+Origin: https://github.com/kormoglaz/scala-akka-arkanoid
+
 This is Scala/Akka Arkanoid on Playframework.
 
 To run "./activator run" or "./sbt run".
